@@ -25,6 +25,8 @@ Plug 'Mofiqul/vscode.nvim'         " VSCode theme
 Plug 'wfxr/minimap.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'airblade/vim-gitgutter'
+Plug 'ggml-org/llama.vim'
 call plug#end()
 
 " General Settings
@@ -43,6 +45,9 @@ set termguicolors          " Enable true color support
 set lazyredraw             " Faster scrolling
 set updatetime=300         " Faster completion
 set timeoutlen=500         " Faster mappings
+set scrolloff=8
+
+let g:mapleader=" "
 
 " Plugin Configurations
 " Lualine
@@ -112,18 +117,12 @@ EOF
 " Colorscheme
 colorscheme vscode
 
-" Keybindings (VSCode-like)
-" File search
-nnoremap <C-p> :Telescope find_files<CR>
-" Command palette
-nnoremap <C-S-p> :Telescope commands<CR> 
-
 " Toggle comment
 nnoremap <C-\> :lua require('Comment.api').toggle.linewise.current()<CR>
 vnoremap <C-\> :lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>
 
 " Toggle file explorer
-nnoremap <C-b> :NvimTreeToggle<CR>
+nnoremap <leader>z :NvimTreeToggle<CR>
 
 " Buffer (Tabs)
 nnoremap tn :BufferLineCycleNext<CR>
@@ -132,25 +131,25 @@ nnoremap tp :BufferLineCyclePrev<CR>
 " Open terminal
 nnoremap <C-t> :ToggleTerm<CR>
 
-nnoremap <leader>ff :Telescope find_files<CR> " Find files
-nnoremap <leader>fg :Telescope live_grep<CR>  " Live grep
+nnoremap <C-p> :Telescope find_files<CR> " Find files
+nnoremap <S-p> :Telescope live_grep<CR>  " Live grep
 nnoremap <leader>fb :Telescope buffers<CR>    " List buffers
 
 " Map <Esc> to exit Terminal mode and go to Normal mode
 tnoremap <Esc> <C-\><C-n>
 
 " Save and Quit
-nnoremap <C-s> :w<CR>  " Save file with leader+w
-nnoremap <C-q> :bd<CR> " Quit with leader+q
+nnoremap <leader>s :w<CR>  " Save file with leader+w
+nnoremap <leader>q :bd<CR> " Quit with leader+q
 
 " Move line up
-nnoremap <A-k> :m .-2<CR>==
+nnoremap <A-UP> :m .-2<CR>==
 " Move line down
-nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-DOWN> :m .+1<CR>==
 " Move selection up
-xnoremap <A-k> :m '<-2<CR>gv=gv
+xnoremap <A-UP> :m '<-2<CR>gv=gv
 " Move selection down
-xnoremap <A-j> :m '>+1<CR>gv=gv
+xnoremap <A-DOWN> :m '>+1<CR>gv=gv
 
 " Jump to definition (LSP)
 nnoremap <C-d> :lua vim.lsp.buf.definition()<CR>
@@ -173,3 +172,11 @@ vnoremap <S-Tab> <gv
 
 " Generalized buffer switching with user input
 nnoremap tb :lua require("bufferline").go_to_buffer(tonumber(vim.fn.input("Buffer number: ")), true)<CR>
+
+nmap ghs <Plug>(GitGutterStageHunk)
+nmap ghu <Plug>(GitGutterUndoHunk)
+nmap ghp <Plug>(GitGutterPreviewHunk)
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+
+let g:llama_config = { 'endpoint': 'http://localhost:8012/infill', 'auto_fim' : v:false }

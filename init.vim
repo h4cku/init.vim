@@ -23,6 +23,8 @@ Plug 'kyazdani42/nvim-web-devicons'  " Icon support
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 Plug 'Mofiqul/vscode.nvim'         " VSCode theme
 Plug 'wfxr/minimap.vim'
+Plug 'voldikss/vim-floaterm'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 call plug#end()
 
 " General Settings
@@ -124,8 +126,8 @@ vnoremap <C-\> :lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<
 nnoremap <C-b> :NvimTreeToggle<CR>
 
 " Buffer (Tabs)
-nnoremap <Tab> :BufferLineCycleNext<CR>
-nnoremap <S-Tab> :BufferLineCyclePrev<CR>
+nnoremap tn :BufferLineCycleNext<CR>
+nnoremap tp :BufferLineCyclePrev<CR>
 
 " Open terminal
 nnoremap <C-t> :ToggleTerm<CR>
@@ -159,3 +161,15 @@ nnoremap <C-m> :MinimapToggle<CR>
 " Set minimap to be on the right side of the window
 let g:minimap_width = 20
 let g:minimap_auto_start = 1
+let g:minimap_git_colors = 1
+
+" Move the current line or a selection to the right with Tab
+nnoremap <Tab> >>_
+vnoremap <Tab> >gv
+
+" Move the current line or a selection to the left with Shift-Tab
+nnoremap <S-Tab> <<_
+vnoremap <S-Tab> <gv
+
+" Generalized buffer switching with user input
+nnoremap tb :lua require("bufferline").go_to_buffer(tonumber(vim.fn.input("Buffer number: ")), true)<CR>

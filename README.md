@@ -41,3 +41,7 @@ pip install black
 sudo apt install clangd
 sudo apt install clang-format clang-tidy
 ```
+
+## Install Lazy Git
+
+Install lazygit tool from [here](https://github.com/jesseduffield/lazygit)

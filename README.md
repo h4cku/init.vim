@@ -19,9 +19,13 @@ mv path/to/font/*.ttf ~/.local/share/fonts
 fc-cache -fv
 ```
 
-## Install code-minimap
+## Install ripgrep
 
-Install (minimap)[https://github.com/wfxr/code-minimap] from one of the binaries that suits your environment
+ripgrep is necessary for Telescope. Follow the steps from [here](https://github.com/BurntSushi/ripgrep) or run the following command if you are in Ubuntu.
+
+```sh
+apt install ripgrep
+```
 
 ## Install LSP
 

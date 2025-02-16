@@ -58,7 +58,7 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'akinsho/toggleterm.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'airblade/vim-gitgutter'
-" Plug 'ggml-org/llama.vim'
+Plug 'ggml-org/llama.vim'
 call plug#end()
 
 " Setting theme
@@ -112,4 +112,4 @@ nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 
 " Set the endpoints for llama.vim
-" let g:llama_config = { 'endpoint': 'http://localhost:8012/infill', 'auto_fim' : v:false }
+let g:llama_config = { 'endpoint': 'http://localhost:8012/infill', 'auto_fim' : v:false }

@@ -21,8 +21,8 @@ set clipboard=unnamedplus
 " Tabs and identation
 set cursorcolumn
 set autoindent
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 
 " Search settings
@@ -59,6 +59,10 @@ Plug 'akinsho/toggleterm.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'airblade/vim-gitgutter'
 Plug 'ggml-org/llama.vim'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'jay-babu/mason-null-ls.nvim'
 call plug#end()
 
 " Setting theme
@@ -104,6 +108,11 @@ vnoremap <Tab> >gv
 nnoremap <S-Tab> <<_
 vnoremap <S-Tab> <gv
 
+" Key bindings to switch between buffers
+nnoremap <A-l> :bNext<CR>
+nnoremap <A-h> :bprevious<CR>
+nnoremap <leader>q :bd<CR>
+
 " Key bindings for GitGutter
 nmap ghs <Plug>(GitGutterStageHunk)
 nmap ghu <Plug>(GitGutterUndoHunk)
@@ -113,3 +122,76 @@ nmap [h <Plug>(GitGutterPrevHunk)
 
 " Set the endpoints for llama.vim
 let g:llama_config = { 'endpoint': 'http://localhost:8012/infill', 'auto_fim' : v:false }
+
+lua << EOF
+    require("mason").setup()
+    require("mason-lspconfig").setup({
+           ensure_installed = { "pyright", "clangd", "gopls" },
+           automatic_installation = true,
+    })
+
+    require("mason-null-ls").setup({
+        ensure_installed = { "black", "clang-format", "goimports" },
+        automatic_installation = true,
+    })
+
+    -- LSP Server Configurations
+    local on_attach = function(client, bufnr)
+        -- Keybindings for LSP
+        local bufmap = vim.api.nvim_buf_set_keymap
+        local opts = { noremap = true, silent = true }
+        bufmap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+        bufmap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+        bufmap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+    end
+
+    -- After setting up mason-lspconfig you may set up servers via lspconfig
+    -- Python LSP
+    require("lspconfig").pyright.setup {
+        on_attach = on_attach,
+    }
+
+    -- C LSP
+    require("lspconfig").clangd.setup {
+        on_attach = on_attach,
+    }
+
+    -- Golang LSP
+    require("lspconfig").gopls.setup({
+        on_attach = on_attach,
+    })
+
+    local null_ls = require("null-ls")
+
+    null_ls.setup({
+        sources = {
+            require("null-ls").builtins.formatting.black, -- Black formatter
+            require("null-ls").builtins.formatting.clang_format, -- Add C formatter
+            require("null-ls").builtins.formatting.gofmt,       -- Standard Go formatter
+            require("null-ls").builtins.formatting.goimports,   -- Auto-fix imports
+        },
+    })
+    vim.cmd([[autocmd BufWritePre *.py lua vim.lsp.buf.format()]])
+    vim.cmd([[autocmd BufWritePre *.c,*.h lua vim.lsp.buf.format()]])
+    vim.cmd([[autocmd BufWritePre *.go lua vim.lsp.buf.format()]])
+
+    local cmp = require("cmp")
+
+    cmp.setup({
+        snippet = {
+            expand = function(args)
+                require("luasnip").lsp_expand(args.body)
+            end,
+        },
+        mapping = {
+            ["<Tab>"] = cmp.mapping.select_next_item(),
+            ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+            ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        },
+        sources = {
+            { name = "nvim_lsp" },
+        },
+    })
+EOF
+
+

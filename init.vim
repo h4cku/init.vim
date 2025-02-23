@@ -109,7 +109,7 @@ nnoremap <S-Tab> <<_
 vnoremap <S-Tab> <gv
 
 " Key bindings to switch between buffers
-nnoremap <A-l> :bNext<CR>
+nnoremap <A-l> :bnext<CR>
 nnoremap <A-h> :bprevious<CR>
 nnoremap <leader>q :bd<CR>
 

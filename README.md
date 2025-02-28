@@ -49,3 +49,11 @@ sudo apt install clang-format clang-tidy
 ## Install Lazy Git
 
 Install lazygit tool from [here](https://github.com/jesseduffield/lazygit)
+
+# How to use
+
+Run the following command to set nvim with this configuration
+```sh
+mkdir $HOME/.config/nvim
+git clone https://github.com/elvin-mark/init.vim $HOME/.config/nvim/
+```

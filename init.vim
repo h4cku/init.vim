@@ -61,8 +61,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ggml-org/llama.vim'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvimtools/none-ls.nvim'
 Plug 'jay-babu/mason-null-ls.nvim'
+Plug 'L3MON4D3/LuaSnip'
 call plug#end()
 
 " Setting theme

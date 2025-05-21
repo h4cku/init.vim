@@ -121,6 +121,9 @@ nmap ghp <Plug>(GitGutterPreviewHunk)
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 
+" Key bindings to show diagnostics
+nnoremap ]e :lua vim.diagnostic.open_float()<cr>
+
 " Set the endpoints for llama.vim
 let g:llama_config = { 'endpoint': 'http://localhost:8012/infill', 'auto_fim' : v:false }
 

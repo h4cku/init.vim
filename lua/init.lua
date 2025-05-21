@@ -1,6 +1,6 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "pyright", "clangd", "gopls" },
+  ensure_installed = { "pyright", "clangd", "gopls", "ts_ls"},
   automatic_installation = true,
 })
 
@@ -35,6 +35,12 @@ require("lspconfig").gopls.setup({
   on_attach = on_attach,
 })
 
+-- Typescript LSP
+require("lspconfig").ts_ls.setup({
+  on_attach = on_attach, 
+  capabilities = require("cmp_nvim_lsp").default_capabilities(),
+})
+
 local null_ls = require("null-ls")
 
 null_ls.setup({
@@ -43,11 +49,14 @@ null_ls.setup({
     require("null-ls").builtins.formatting.clang_format, -- Add C formatter
     require("null-ls").builtins.formatting.gofmt,       -- Standard Go formatter
     require("null-ls").builtins.formatting.goimports,   -- Auto-fix imports
+    require("null-ls").builtins.formatting.prettier, -- Typescript/Javascript formatter
   },
 })
 vim.cmd([[autocmd BufWritePre *.py lua vim.lsp.buf.format()]])
 vim.cmd([[autocmd BufWritePre *.c,*.h lua vim.lsp.buf.format()]])
 vim.cmd([[autocmd BufWritePre *.go lua vim.lsp.buf.format()]])
+vim.cmd([[autocmd BufWritePre *.ts lua vim.lsp.buf.format()]])
+vim.cmd([[autocmd BufWritePre *.js lua vim.lsp.buf.format()]])
 
 local cmp = require("cmp")
 

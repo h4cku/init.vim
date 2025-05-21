@@ -46,6 +46,12 @@ sudo apt install clangd
 sudo apt install clang-format clang-tidy
 ```
 
+### Typescript
+
+```sh
+npm install -g typescript typescript-language-server
+```
+
 ## Install Lazy Git
 
 Install lazygit tool from [here](https://github.com/jesseduffield/lazygit)

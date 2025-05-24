@@ -1,6 +1,6 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "pyright", "clangd", "gopls", "ts_ls"},
+  ensure_installed = { "pylsp", "clangd", "gopls", "ts_ls"},
   automatic_installation = true,
 })
 
@@ -21,7 +21,7 @@ end
 
 -- After setting up mason-lspconfig you may set up servers via lspconfig
 -- Python LSP
-require("lspconfig").pyright.setup {
+require("lspconfig").pylsp.setup {
   on_attach = on_attach,
 }
 
